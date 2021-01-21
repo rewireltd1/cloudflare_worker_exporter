@@ -29,6 +29,18 @@ The implementation supports a .env file. You can override the path using the DOT
 DOTENV_FILE=/env/variables ./cloudflare_worker_exporter [flags]
 ```
 
+### Environment Variables
+-------------------------------------------------------------------------------------------------------------------------------------------------------
+| Variable                        | Description                                                       | Default                                       |
+|:--------------------------------|:------------------------------------------------------------------|:---------------------------------------------:|
+|`PORT`                           | The TCP port for the HTTP server                                  | 9184A                                         |
+|`MERTICS_ENDPOINT`               | The metrics endpoint that prometheus scrapes                      | /metricsA                                     |
+|`CLOUDFLARE_ANALYTICS_TOKEN`     | Cloudflare API token with `Account.Account Analytics` permissions | N/A                                           |
+|`CLOUDFLARE_ACCOUNT_ID`          | Cloudflare account id                                             | N/A                                           |
+|`CLOUDFLARE_ANALYTICS_ENDPOINT`  | Cloudflare analytics graphql endpoint                             | https://api.cloudflare.com/client/v4/graphql/ |
+-------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
 ### Docker
 
 * Build
@@ -64,6 +76,8 @@ The exporter exposes the following worker metrics:
 * percentile - for the cpu time time series, possible values `25,50,75,90,99,999`
 
 
+### Health Check
+To support availability probe we added a simple endpoint `/health' that replies with 200 OK in case the server is up. This is useful in order to define Kubernetes liveness probe
 ## License
 
 Copyright 2021 Rewire (O.S.G) Research and Development Ltd. All rights reserved.

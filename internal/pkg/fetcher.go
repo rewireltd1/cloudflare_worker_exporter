@@ -3,6 +3,7 @@ package cloudflare_worker_exporter
 import (
 	"context"
 	"fmt"
+	"log"
 	"time"
 
 	"github.com/machinebox/graphql"
@@ -106,6 +107,7 @@ func (fetcher *Fetcher) FetchRequestCount() (ResponseStruct, error) {
 			}
 		}`
 
+	log.Println("Fetching requests analytics...")
 	return fetcher.fetchMetrics(request, startTime, endTime)
 }
 
@@ -137,5 +139,6 @@ func (fetcher *Fetcher) FetchCpuTime() (ResponseStruct, error) {
 			}
 		}`
 
+	log.Println("Fetching requests analytics...")
 	return fetcher.fetchMetrics(request, startTime, endTime)
 }

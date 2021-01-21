@@ -20,6 +20,8 @@ func getEnv(key, fallback string) string {
 	return fallback
 }
 
+const cloudflareAnalyticsEndpoint = "https://api.cloudflare.com/client/v4/graphql/"
+
 func LoadFlags() Flags {
 	flags := Flags{
 		ListenAddress: flag.String("port", getEnv("PORT", "9184"),
@@ -30,8 +32,8 @@ func LoadFlags() Flags {
 			"Cloudflare API bearer token with Account.Account Analytics permissions, default is the value from CLOUDFLARE_ANALYTICS_TOKEN environment variable"),
 		CloudFlareAccountId: flag.String("account", os.Getenv("CLOUDFLARE_ACCOUNT_ID"),
 			"Cloudflare account id, default is the value from CLOUDFLARE_ACCOUNT_ID environment variable"),
-		CloudflareEndpoint: flag.String("endpoint", getEnv("CLOUDFLARE_ANALYTICS_ENDPOINT", "https://api.cloudflare.com/client/v4/graphql/"),
-			"Cloudflare account id, default is https://api.cloudflare.com/client/v4/graphql/"),
+		CloudflareEndpoint: flag.String("endpoint", getEnv("CLOUDFLARE_ANALYTICS_ENDPOINT", cloudflareAnalyticsEndpoint),
+			"Cloudflare account id, default is "+cloudflareAnalyticsEndpoint),
 	}
 	flag.Parse()
 	return flags
