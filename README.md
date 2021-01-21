@@ -50,11 +50,11 @@ docker build -t cloudflare_worker_exporter:local -f Dockerfile .
 
 * Run
 ```bash
-docker run -it\
+docker run --rm -it\
  -e CLOUDFLARE_ANALYTICS_TOKEN=[token]\
  -e CLOUDFLARE_ACCOUNT_ID=[account id]\
  -p 9184:9184\
-  cloudflare_worker_exporter:local
+  rewireto/cloudflare-worker-exporter:latest
 ```
 
 ## Metrics
