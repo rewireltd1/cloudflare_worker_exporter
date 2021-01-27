@@ -75,6 +75,9 @@ The exporter exposes the following worker metrics:
 * state - worker final status - success, clientDisconnected, scriptThrewException
 * percentile - for the cpu time time series, possible values `25,50,75,90,99,999`
 
+### Implementing REequest Counters
+As some of the metrics are counters, we didn't want to convert them to Gauges as we wanted to keep their context and to be able to be able to calculate rate queries.
+Therefore, we decided to set a constant start time to the request sample which will be Sunday at midnight. Every week the counter will be reset and start to grow again. That way we were able to generate an monotonically increasing function, as we expect counters to behave.
 
 ### Health Check
 To support availability probe we added a simple endpoint `/health' that replies with 200 OK in case the server is up. This is useful in order to define Kubernetes liveness probe
