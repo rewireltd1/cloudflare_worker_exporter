@@ -73,39 +73,37 @@ func (fetcher *Fetcher) fetchMetrics(request string, startTime string, endTime s
 	return
 }
 
-func WeekStart(year, week int) time.Time {
-	t := time.Date(year, 1, 1, 0, 0, 0, 0, time.UTC)
-	t = t.AddDate(0, 0, -int(t.Weekday()))
-	t = t.AddDate(0, 0, week*7)
-
+func WeekStart(now time.Time) time.Time {
+	t := time.Date(now.Year(), now.Month(), now.Day(), 0, 0, 0, 0, time.UTC)
+	t = t.AddDate(0, 0, -(int(t.Weekday())%7))
+	
 	return t
 }
 
 // fetch the request count since the begining of the week
 func (fetcher *Fetcher) FetchRequestCount() (ResponseStruct, error) {
 	now := time.Now()
-	year, week := now.ISOWeek()
-	startTime := WeekStart(year, week).Format(time.RFC3339)
+	startTime := WeekStart(now).Format(time.RFC3339)
 	endTime := now.UTC().Format(time.RFC3339)
 
 	request := `
-		query ($account: String!, $start: String!, $end: String!) {
-			viewer {
-				accounts(filter: {accountTag: $account}) {
-					workersInvocationsAdaptive(limit: 100, filter: {datetime_geq: $start, datetime_leq: $end}) {
-						sum {
-							subrequests
-							requests
-							errors
-						}
-						dimensions {
-							scriptName
-							status
-						}
+	query ($account: String!, $start: String!, $end: String!) {
+		viewer {
+			accounts(filter: {accountTag: $account}) {
+				workersInvocationsAdaptive(limit: 100, filter: {datetime_geq: $start, datetime_leq: $end}) {
+					sum {
+						subrequests
+						requests
+						errors
+					}
+					dimensions {
+						scriptName
+						status
 					}
 				}
 			}
-		}`
+		}
+	}`
 
 	log.Println("Fetching requests analytics...")
 	return fetcher.fetchMetrics(request, startTime, endTime)
@@ -139,6 +137,6 @@ func (fetcher *Fetcher) FetchCpuTime() (ResponseStruct, error) {
 			}
 		}`
 
-	log.Println("Fetching requests analytics...")
+	log.Println("Fetching CPU analytics...")
 	return fetcher.fetchMetrics(request, startTime, endTime)
 }
