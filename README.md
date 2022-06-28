@@ -86,4 +86,4 @@ To support availability probe we added a simple endpoint `/health' that replies 
 Copyright 2021 Rewire (O.S.G) Research and Development Ltd. All rights reserved.
 Licensed under the Apache License, Version 2.0 (the "License"), see [LICENSE](https://github.com/rewireltd1/cloudflare_worker_exporter/blob/master/LICENSE).
 
-For more information, see [the coming blog post](https://coming-soon).
+For more information, see [the coming blog post](https://medium.com/rewire-to/sometimes-building-your-own-prometheus-exporter-for-monitoring-cloudflare-workers-is-the-best-4690531401d).
